@@ -2,6 +2,7 @@ package edu.uom.currencymanager;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 public class CurrencyManagerTests {
 
@@ -15,6 +16,11 @@ public class CurrencyManagerTests {
     @After
     public void teardown(){
         cm = null;
+    }
+
+    @Test
+    public void testGetMajorCurrencyRates()  throws Exception{
+
     }
 
 

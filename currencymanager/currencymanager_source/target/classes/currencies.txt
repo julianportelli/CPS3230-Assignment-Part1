@@ -5,5 +5,3 @@ GBP,British Pound,yes
 TRY,Turkish Lira,no
 USD,US Dollar,yes
 LMT,Maltese Lira,no
-CHK,Chako Coin,yes
-LMT,Maltese Lira,no

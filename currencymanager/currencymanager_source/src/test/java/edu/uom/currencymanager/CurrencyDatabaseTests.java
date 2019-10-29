@@ -11,6 +11,7 @@ import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 
 public class CurrencyDatabaseTests {
@@ -70,11 +71,32 @@ public class CurrencyDatabaseTests {
     }
 
     @Test
+    public void testDeleteCurrency() throws Exception{
+        //Exercise
+        int oldSize = cd.getCurrencies().size(); //Gets old no. of currencies
+        cd.deleteCurrency("CHK");
+        int newSize = cd.getCurrencies().size();
+
+        //Verify
+        assertTrue(oldSize != newSize);
+    }
+
+    @Test
     public void testGetExchangeRateSourceNull() throws Exception{
         //Verify
         thrown.expect(Exception.class);
         thrown.expectMessage("Unkown currency: null");
         cd.getExchangeRate(null, "GBP");
     }
+
+    @Test
+    public void testGetExchangeRateDestinationNull() throws Exception{
+        //Verify
+        thrown.expect(Exception.class);
+        thrown.expectMessage("Unkown currency: null");
+        cd.getExchangeRate("GBP", null);
+    }
+
+
 
 }
