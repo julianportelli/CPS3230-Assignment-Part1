@@ -57,7 +57,7 @@ public class CurrencyDatabase {
                 System.err.println("Invalid currency code detected: " + currency.code);
             }
         }
-    }
+    } //No control
 
     public Currency getCurrencyByCode(String code) {
 
