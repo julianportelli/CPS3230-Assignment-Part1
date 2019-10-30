@@ -2,7 +2,6 @@ package edu.uom.currencymanager;
 
 import edu.uom.currencymanager.currencies.Currency;
 import edu.uom.currencymanager.currencies.CurrencyDatabase;
-import edu.uom.currencymanager.currencies.ExchangeRate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -22,7 +21,7 @@ public class CurrencyDatabaseTests {
     CurrencyDatabase cd;
     Currency currencyMinor;
     Currency currencyMajor;
-    ExchangeRate ex;
+
 
     @Before
     public void setup() throws Exception{
@@ -95,6 +94,22 @@ public class CurrencyDatabaseTests {
         thrown.expect(Exception.class);
         thrown.expectMessage("Unkown currency: null");
         cd.getExchangeRate("GBP", null);
+    }
+
+    @Test
+    public void testGetExchangeRateSourceNonexistent() throws Exception{
+        //Verify
+        thrown.expect(Exception.class);
+        thrown.expectMessage("Unkown currency: ASDF");
+        cd.getExchangeRate("ASDF", "GBP");
+    }
+
+    @Test
+    public void testGetExchangeRateDestinationNonexistent() throws Exception{
+        //Verify
+        thrown.expect(Exception.class);
+        thrown.expectMessage("Unkown currency: ASDF");
+        cd.getExchangeRate("GBP", "ASDF");
     }
 
 
