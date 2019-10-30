@@ -21,7 +21,7 @@ public class CurrencyManagerTests {
     ExchangeRate ex;
     Currency currencyMinor;
     Currency currencyMajor;
-    int oldSize;
+    int oldListCurrSize;
 
     @Before
     public void setup() throws Exception {
@@ -29,7 +29,7 @@ public class CurrencyManagerTests {
         currencyMinor = new Currency("LMT", "Maltese Lira", false);
         currencyMajor = new Currency("CHK", "Chako Coin", true);
         ex = new ExchangeRate(currencyMinor, currencyMajor, 1.49);
-        oldSize = cm.currencyDatabase.getCurrencies().size();
+        oldListCurrSize = cm.currencyDatabase.getCurrencies().size();
     }
 
     @After
@@ -44,13 +44,17 @@ public class CurrencyManagerTests {
 
     @Test
     public void testCurrencyClassToString(){
-        assertEquals(currencyMajor.toString(), "LMT 1 - Maltese Lira");
+        assertEquals(currencyMinor.toString(), "LMT - Maltese Lira");
     }
 
     @Test
     public void testGetMajorCurrencyRates()  throws Exception{
-        cm.currencyDatabase.addCurrency(currencyMajor);
-        assertEquals(cm.getMajorCurrencyRates().size(), oldSize + 1);
+        int oldListMajorRateSize = cm.getMajorCurrencyRates().size();
+        System.out.println(oldListMajorRateSize);
+        cm.addCurrency("JKL", "JK Litecoin", true);
+        int newSize = cm.currencyDatabase.getMajorCurrencies().size();
+        assertEquals(cm.getMajorCurrencyRates().size(), (int)Math.pow(newSize, 2) + newSize);
+        cm.currencyDatabase.deleteCurrency("JKL");
     }
 
     @Test
@@ -96,13 +100,13 @@ public class CurrencyManagerTests {
     public void testAddCurrencyAddedToCurrencyDatabase() throws Exception{
 
         cm.addCurrency("ABC", "AB Coin", false);
-        assertEquals(cm.currencyDatabase.getCurrencies().size(), oldSize + 1);
+        assertEquals(cm.currencyDatabase.getCurrencies().size(), oldListCurrSize + 1);
     }
 
     @Test
     public void testDeleteCurrencyWithExistingCode() throws Exception{
         cm.deleteCurrencyWithCode("ABC");
-        assertEquals(cm.currencyDatabase.getCurrencies().size(), oldSize - 1);
+        assertEquals(cm.currencyDatabase.getCurrencies().size(), oldListCurrSize - 1);
     }
 
     @Test

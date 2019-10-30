@@ -42,6 +42,8 @@ public class CurrencyDatabaseTests {
 
         //Verify
         assertEquals("LMT - Maltese Lira", cd.getCurrencyByCode("LMT").toString());
+
+        cd.deleteCurrency("LMT");
     }
 
     @Test
@@ -57,6 +59,8 @@ public class CurrencyDatabaseTests {
 
         //Verify
         assertTrue(cd.getMajorCurrencies().contains(currencyMajor));
+
+        cd.deleteCurrency("CHK");
     }
 
     @Test
@@ -67,11 +71,14 @@ public class CurrencyDatabaseTests {
 
         //Verify
         assertEquals(cd.getCurrencies().size(),x+1);
+
+        cd.deleteCurrency("LMT");
     }
 
     @Test
     public void testDeleteCurrency() throws Exception{
         //Exercise
+        cd.addCurrency(currencyMajor);
         int oldSize = cd.getCurrencies().size(); //Gets old no. of currencies
         cd.deleteCurrency("CHK");
         int newSize = cd.getCurrencies().size();
