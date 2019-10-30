@@ -5,6 +5,4 @@ GBP,British Pound,yes
 TRY,Turkish Lira,no
 USD,US Dollar,yes
 TSC,Test Coin,yes
-CHK,Chako Coin,yes
 ABC,AB Coin,no
-JKL,JK Litecoin,yes

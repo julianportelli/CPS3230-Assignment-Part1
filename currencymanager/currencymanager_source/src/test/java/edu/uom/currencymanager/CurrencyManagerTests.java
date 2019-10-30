@@ -19,6 +19,7 @@ public class CurrencyManagerTests {
 
     CurrencyManager cm;
     ExchangeRate ex;
+    ExchangeRate ex2;
     Currency currencyMinor;
     Currency currencyMajor;
     int oldListCurrSize;
@@ -51,10 +52,9 @@ public class CurrencyManagerTests {
     public void testGetMajorCurrencyRates()  throws Exception{
         int oldListMajorRateSize = cm.getMajorCurrencyRates().size();
         System.out.println(oldListMajorRateSize);
-        cm.addCurrency("JKL", "JK Litecoin", true);
         int newSize = cm.currencyDatabase.getMajorCurrencies().size();
-        assertEquals(cm.getMajorCurrencyRates().size(), (int)Math.pow(newSize, 2) + newSize);
         cm.currencyDatabase.deleteCurrency("JKL");
+        assertEquals(oldListMajorRateSize, (int)Math.pow(newSize, 2) - newSize);
     }
 
     @Test
@@ -91,6 +91,7 @@ public class CurrencyManagerTests {
 
     @Test
     public void testAddCurrencyAlreadyExsists() throws Exception{
+
         thrown.expect(Exception.class);
         thrown.expectMessage("The currency TSC already exists.");
         cm.addCurrency("TSC", "Test Coin", true);
