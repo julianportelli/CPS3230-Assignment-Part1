@@ -53,7 +53,6 @@ public class CurrencyManagerTests {
 //        cm.currencyDatabase.deleteCurrency("JKL");
 //        assertEquals(oldListMajorRateSize, (int)Math.pow(newSize, 2) - newSize);
         int MajorCurrencyRatesListSize = cm.getMajorCurrencyRates().size();
-        System.out.println(MajorCurrencyRatesListSize);
         int MajorCurrenciesListSize = cm.currencyDatabase.getMajorCurrencies().size();
         assertEquals(MajorCurrencyRatesListSize, (int)Math.pow(MajorCurrenciesListSize, 2) - MajorCurrenciesListSize);
     }//Number of rates follow the equation x^2 - x, where x is the number of major currencies
