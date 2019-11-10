@@ -4,5 +4,5 @@ EUR,Euro,yes
 GBP,British Pound,yes
 TRY,Turkish Lira,no
 USD,US Dollar,yes
+DEF,DEF Coin,no
 TSC,Test Coin,yes
-ABC,AB Coin,no

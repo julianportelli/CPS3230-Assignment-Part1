@@ -8,6 +8,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class CurrencyManagerTests {
@@ -31,7 +34,7 @@ public class CurrencyManagerTests {
     }
 
     @After
-    public void teardown(){
+    public void teardown(){ //OK
         cm = null;
         currencyMinor = null;
         currencyMajor = null;
@@ -41,35 +44,30 @@ public class CurrencyManagerTests {
     //I don't think main can be tested. Might be wrong
 
     @Test
-    public void testCurrencyClassToString(){
+    public void testCurrencyClassToString(){ //OK
         assertEquals(currencyMinor.toString(), "LMT - Maltese Lira");
     } //Simple comparison
 
     @Test
-    public void testGetMajorCurrencyRates() throws Exception{
-//        int oldListMajorRateSize = cm.getMajorCurrencyRates().size();
-//        System.out.println(oldListMajorRateSize);
-//        int newSize = cm.currencyDatabase.getMajorCurrencies().size();
-//        cm.currencyDatabase.deleteCurrency("JKL");
-//        assertEquals(oldListMajorRateSize, (int)Math.pow(newSize, 2) - newSize);
+    public void testGetMajorCurrencyRates() throws Exception{  //OK
         int MajorCurrencyRatesListSize = cm.getMajorCurrencyRates().size();
         int MajorCurrenciesListSize = cm.currencyDatabase.getMajorCurrencies().size();
         assertEquals(MajorCurrencyRatesListSize, (int)Math.pow(MajorCurrenciesListSize, 2) - MajorCurrenciesListSize);
     }//Number of rates follow the equation x^2 - x, where x is the number of major currencies
 
     @Test
-    public void testExchangeRateClassToString() throws Exception{
+    public void testExchangeRateClassToString() throws Exception{ //OK
         assertEquals(ex.toString(), "LMT 1 = CHK 1.49");
     }//Simple comparison
 
     @Test
-    public void testGetExchangeRate()  throws Exception{
+    public void testGetExchangeRate()  throws Exception{ //OK
         ex = cm.getExchangeRate("GBP", "USD");
         assertEquals(ex, cm.currencyDatabase.getExchangeRate("GBP", "USD"));
     }//Compare equality of currency in currencymanager with currencymanager's currencydatabase
 
     @Test
-    public void testGetExchangeRateWithNonExistentCurrency()  throws Exception{
+    public void testGetExchangeRateWithNonExistentCurrency()  throws Exception{ //OK
         thrown.expect(Exception.class);
         thrown.expectMessage("Unkown currency: ASDF");
         cm.getExchangeRate("ASDF", "USD");
@@ -90,7 +88,8 @@ public class CurrencyManagerTests {
     }//Testing for exception where new currency name is too short
 
     @Test
-    public void testAddCurrencyAlreadyExsists() throws Exception{
+    public void testAddCurrencyAlreadyExists() throws Exception{
+        cm.addCurrency("TSC", "Test Coin", true);
         thrown.expect(Exception.class);
         thrown.expectMessage("The currency TSC already exists.");
         cm.addCurrency("TSC", "Test Coin", true);
@@ -98,14 +97,16 @@ public class CurrencyManagerTests {
 
     @Test
     public void testAddCurrencyAddedToCurrencyDatabase() throws Exception{
-        cm.addCurrency("ABC", "AB Coin", false);
+        cm.addCurrency("DEF", "DEF Coin", false);
         assertEquals(cm.currencyDatabase.getCurrencies().size(), oldListCurrSize + 1);
     }//Add new currency and compare if size changed
 
     @Test
     public void testDeleteCurrencyWithExistingCode() throws Exception{
+        System.out.println(oldListCurrSize);
+        cm.addCurrency("ABC", "AB Coin", false);
         cm.deleteCurrencyWithCode("ABC");
-        assertEquals(cm.currencyDatabase.getCurrencies().size(), oldListCurrSize - 1);
+        assertEquals(cm.currencyDatabase.getCurrencies().size(), oldListCurrSize);
     }//Delete existing currency and compare if size changed
 
     @Test
