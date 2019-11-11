@@ -8,9 +8,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 
 public class CurrencyManagerTests {
@@ -85,20 +82,22 @@ public class CurrencyManagerTests {
         thrown.expect(Exception.class);
         thrown.expectMessage("A currency's name should be at least 4 characters long.");
         cm.addCurrency("TES", "Tes", true);
+
+        cm.deleteCurrencyWithCode("TES");
     }//Testing for exception where new currency name is too short
 
     @Test
     public void testAddCurrencyAlreadyExists() throws Exception{
-        cm.addCurrency("TSC", "Test Coin", true);
         thrown.expect(Exception.class);
-        thrown.expectMessage("The currency TSC already exists.");
-        cm.addCurrency("TSC", "Test Coin", true);
+        thrown.expectMessage("The currency USD already exists.");
+        cm.addCurrency("USD", "US Dollar", true);
     }//Testing for exception where currency already exists
 
     @Test
     public void testAddCurrencyAddedToCurrencyDatabase() throws Exception{
         cm.addCurrency("DEF", "DEF Coin", false);
         assertEquals(cm.currencyDatabase.getCurrencies().size(), oldListCurrSize + 1);
+        cm.deleteCurrencyWithCode("DEF");
     }//Add new currency and compare if size changed
 
     @Test
