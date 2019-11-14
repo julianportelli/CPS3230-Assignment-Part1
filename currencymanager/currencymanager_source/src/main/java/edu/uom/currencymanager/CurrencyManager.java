@@ -1,3 +1,5 @@
+//MAIN CLASS
+
 package edu.uom.currencymanager;
 
 import edu.uom.currencymanager.currencies.Currency;
@@ -13,11 +15,12 @@ public class CurrencyManager {
     CurrencyDatabase currencyDatabase;
 
     public CurrencyManager() throws Exception {
-        currencyDatabase = new CurrencyDatabase();
+        currencyDatabase = new CurrencyDatabase(CurrencyFactory.getCurrencyRepository());
     }
 
 
     public static void main(String[] args) throws Exception {
+        //CurrencyManager manager = new CurrencyManager(BookingFactory.getBookingRepository());
 
         CurrencyManager manager = new CurrencyManager();
 
