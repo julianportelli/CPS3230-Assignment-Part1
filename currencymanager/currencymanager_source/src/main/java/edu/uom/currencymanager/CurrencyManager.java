@@ -20,7 +20,6 @@ public class CurrencyManager {
 
 
     public static void main(String[] args) throws Exception {
-        //CurrencyManager manager = new CurrencyManager(BookingFactory.getBookingRepository());
 
         CurrencyManager manager = new CurrencyManager();
 

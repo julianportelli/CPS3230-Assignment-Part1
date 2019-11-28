@@ -24,7 +24,29 @@ public class CurrencyDatabase {
         init();
     }
 
+    public List<Currency> getMajorCurrencies(){
+        return repository.getMajorCurrencies();
+    }
 
+    public ExchangeRate getExchangeRate(String sourceCurrencyCode, String destinationCurrencyCode) throws Exception {
+        return repository.getExchangeRate(sourceCurrencyCode, destinationCurrencyCode);
+    }
+
+    public List<Currency> getCurrencies() {
+        return repository.getCurrencies();
+    }
+
+    public boolean currencyExists(String code) {
+        return repository.currencyExists(code);
+    }
+
+    public void addCurrency(Currency currency) throws Exception{
+        repository.addCurrency(currency);
+    }
+
+    public void deleteCurrency(String code) throws Exception{
+        repository.deleteCurrency(code);
+    }
 
     public void init() throws Exception {
         //Initialise currency server

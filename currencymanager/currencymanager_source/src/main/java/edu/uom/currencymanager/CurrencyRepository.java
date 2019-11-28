@@ -19,19 +19,26 @@ public class CurrencyRepository implements ICurrencyRepository {
     private HashMap<String, ExchangeRate> exchangeRates = new HashMap<String, ExchangeRate>();
     private String currenciesFile;
 
-    public void setFilePath(){
-        Scanner sc = new Scanner(System.in);
-        File f;
-        boolean exists;
-        do{
-            System.out.print("Enter the name of the currencies text file: ");
-            String fileName = sc.nextLine();
-            currenciesFile = "target" + File.separator + "classes" + File.separator + fileName;
-            f = new File(currenciesFile);
-            exists = f.exists() && !f.isDirectory();
-            if(exists == false) System.out.println("File not found. Try again");
-        }while(!exists);
+    CurrencyRepository() throws Exception {
+        setFilePath();
+    }
 
+    private void setFilePath() throws Exception {
+            Scanner sc = new Scanner(System.in);
+            File f;
+            boolean exists;
+            do{
+                System.out.print("Enter the name of the currencies text file (type c to cancel): ");
+                String fileName = sc.nextLine();
+                if(fileName.equals("c")|| fileName.equals("C")){
+                    throw new Exception("Cancelled setting up currencies file. Stopped program");
+                }else{
+                    currenciesFile = "target" + File.separator + "classes" + File.separator + fileName;
+                    f = new File(currenciesFile);
+                    exists = f.exists() && !f.isDirectory();
+                    if(!exists) System.out.println("File not found. Try again");
+                }
+            }while(!exists);
     }
 
     public String getCurrenciesFile(){
@@ -69,19 +76,19 @@ public class CurrencyRepository implements ICurrencyRepository {
         return result;
     }
 
-    public ExchangeRate getExchangeRate(String sourceCurrencyCode, String destinationCurrencyCode) throws  Exception {
+    public ExchangeRate getExchangeRate(String sourceCurrencyCode, String destinationCurrencyCode) throws Exception {
         long FIVE_MINUTES_IN_MILLIS = 300000;  //5*60*100
 
         ExchangeRate result = null;
 
         Currency sourceCurrency = getCurrencyByCode(sourceCurrencyCode);
         if (sourceCurrency == null) {
-            throw new Exception("Unkown currency: " + sourceCurrencyCode);
+            throw new Exception("Unknown currency: " + sourceCurrencyCode);
         }
 
         Currency destinationCurrency = getCurrencyByCode(destinationCurrencyCode);
         if (destinationCurrency == null) {
-            throw new Exception("Unkown currency: " + destinationCurrencyCode);
+            throw new Exception("Unknown currency: " + destinationCurrencyCode);
         }
 
         //Check if exchange rate exists in database
@@ -126,7 +133,7 @@ public class CurrencyRepository implements ICurrencyRepository {
         persist();
     }
 
-    public void persist() throws Exception {
+    private void persist() throws Exception {
 
         //Persist list
         BufferedWriter writer = new BufferedWriter(new FileWriter(currenciesFile));
