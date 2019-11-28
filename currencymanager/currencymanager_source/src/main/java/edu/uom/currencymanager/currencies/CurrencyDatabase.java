@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class CurrencyDatabase {
 
     private ICurrencyRepository repository;
+    private String currenciesFile;
 //    private String currenciesFile = "target" + File.separator + "classes" + File.separator + "currencies.txt";
 
 //    public CurrencyDatabase() throws Exception {
@@ -22,6 +23,10 @@ public class CurrencyDatabase {
     public CurrencyDatabase(ICurrencyRepository repository) throws Exception {
         this.repository = repository;
         init();
+    }
+
+    public ICurrencyRepository getRepository(){
+        return repository;
     }
 
     public List<Currency> getMajorCurrencies(){
@@ -48,11 +53,16 @@ public class CurrencyDatabase {
         repository.deleteCurrency(code);
     }
 
+    public Currency getCurrencyByCode(String code){
+        return repository.getCurrencyByCode(code);
+    }
+
     public void init() throws Exception {
         //Initialise currency server
         //currencyServer = new DefaultCurrencyServer();
 
         //Read in supported currencies from text file
+
         BufferedReader reader = new BufferedReader(new FileReader(repository.getCurrenciesFile()));
 
         //skip the first line to avoid header

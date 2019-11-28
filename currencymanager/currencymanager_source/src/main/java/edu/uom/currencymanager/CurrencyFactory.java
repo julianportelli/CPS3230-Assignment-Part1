@@ -1,5 +1,5 @@
 package edu.uom.currencymanager;
 
-public class CurrencyFactory {
-    public static ICurrencyRepository getCurrencyRepository(){ return new CurrencyRepository();}
+class CurrencyFactory {
+    static ICurrencyRepository getCurrencyRepository() throws Exception { return new CurrencyRepository();}
 }

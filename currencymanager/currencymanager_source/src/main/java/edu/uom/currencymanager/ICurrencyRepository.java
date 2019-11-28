@@ -14,4 +14,5 @@ public interface ICurrencyRepository {
     void addCurrency(Currency currency) throws Exception;
     void deleteCurrency(String code) throws Exception;
     String getCurrenciesFile();
+    String setFilePath() throws Exception;
 }

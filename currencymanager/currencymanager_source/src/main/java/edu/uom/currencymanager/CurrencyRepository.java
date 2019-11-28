@@ -14,34 +14,47 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CurrencyRepository implements ICurrencyRepository {
-    private CurrencyServer currencyServer = new DefaultCurrencyServer();
+    private CurrencyServer currencyServer;
     private List<Currency> currencies = new ArrayList<Currency>();
     private HashMap<String, ExchangeRate> exchangeRates = new HashMap<String, ExchangeRate>();
     private String currenciesFile;
 
-    CurrencyRepository() throws Exception {
-        setFilePath();
+    public CurrencyRepository() throws Exception {
+        currencyServer = new DefaultCurrencyServer();
+        Thread.sleep(1000);
+        currenciesFile = setFilePath();
     }
 
-    private void setFilePath() throws Exception {
-            Scanner sc = new Scanner(System.in);
-            File f;
-            boolean exists;
-            do{
-                System.out.print("Enter the name of the currencies text file (type c to cancel): ");
-                String fileName = sc.nextLine();
-                if(fileName.equals("c")|| fileName.equals("C")){
-                    throw new Exception("Cancelled setting up currencies file. Stopped program");
-                }else{
-                    currenciesFile = "target" + File.separator + "classes" + File.separator + fileName;
-                    f = new File(currenciesFile);
-                    exists = f.exists() && !f.isDirectory();
-                    if(!exists) System.out.println("File not found. Try again");
+    public String setFilePath() throws Exception {
+        File f;
+        String fileName;
+        System.out.println("in setFilePath() method");
+        boolean exists = false;
+        Scanner sc = new Scanner(System.in);
+
+        while (!exists) {
+            System.out.println("Enter the name of the currencies text file (type c to cancel):"); //executing only because it's a printline!!!
+            fileName = sc.next();
+            sc.close();
+            System.out.println(fileName);
+            if (fileName.equals("c") || fileName.equals("C")) {
+                throw new Exception("Cancelled setting up currencies file. Stopped program");
+            } else {
+                currenciesFile = "target" + File.separator + "classes" + File.separator + fileName;
+                f = new File(currenciesFile);
+                if (!(f.exists() && f.isDirectory())) {
+                    System.out.println("File not found. Try again");
+                    currenciesFile = "";
+                    exists = false;
+                } else {
+                    exists = true;
                 }
-            }while(!exists);
+            }
+        }
+        return currenciesFile;
     }
 
-    public String getCurrenciesFile(){
+    public String getCurrenciesFile() {
         return currenciesFile;
     }
 
@@ -102,14 +115,14 @@ public class CurrencyRepository implements ICurrencyRepository {
 
         if (result == null) {
             double rate = currencyServer.getExchangeRate(sourceCurrencyCode, destinationCurrencyCode);
-            result = new ExchangeRate(sourceCurrency,destinationCurrency, rate);
+            result = new ExchangeRate(sourceCurrency, destinationCurrency, rate);
 
             //Cache exchange rate
             exchangeRates.put(key, result);
 
             //Cache inverse exchange rate
-            String inverseKey = destinationCurrencyCode+sourceCurrencyCode;
-            exchangeRates.put(inverseKey, new ExchangeRate(destinationCurrency, sourceCurrency, 1/rate));
+            String inverseKey = destinationCurrencyCode + sourceCurrencyCode;
+            exchangeRates.put(inverseKey, new ExchangeRate(destinationCurrency, sourceCurrency, 1 / rate));
         }
 
         return result;

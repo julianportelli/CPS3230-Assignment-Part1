@@ -8,9 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 
 public class CurrencyDatabaseTests {
@@ -18,14 +16,15 @@ public class CurrencyDatabaseTests {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    CurrencyDatabase cd;
-    Currency currencyMinor;
-    Currency currencyMajor;
+    private CurrencyDatabase cd;
+    private Currency currencyMinor;
+    private Currency currencyMajor;
 
 
     @Before
     public void setup() throws Exception{
-        cd = new CurrencyDatabase();
+        System.out.println("TEST!!!!");
+        cd = new CurrencyDatabase(CurrencyFactory.getCurrencyRepository());
         currencyMinor = new Currency("LMT", "Maltese Lira", false);
         currencyMajor = new Currency("CHK", "Chako Coin", true);
     }
@@ -47,9 +46,9 @@ public class CurrencyDatabaseTests {
     }
 
     @Test
-    public void testGetCurrencyByNonexistentCode() throws Exception{
+    public void testGetCurrencyByNonexistentCode(){
         //Verify
-        assertEquals(null, cd.getCurrencyByCode("ASFJKL:"));
+        assertNull(cd.getCurrencyByCode("ASFJKL:"));
     }
 
     @Test
@@ -118,7 +117,5 @@ public class CurrencyDatabaseTests {
         thrown.expectMessage("Unkown currency: ASDF");
         cd.getExchangeRate("GBP", "ASDF");
     }
-
-
 
 }
