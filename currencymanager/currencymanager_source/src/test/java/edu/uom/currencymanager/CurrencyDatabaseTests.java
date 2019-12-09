@@ -23,7 +23,6 @@ public class CurrencyDatabaseTests {
 
     @Before
     public void setup() throws Exception{
-        System.out.println("TEST!!!!");
         cd = new CurrencyDatabase(CurrencyFactory.getCurrencyRepository());
         currencyMinor = new Currency("LMT", "Maltese Lira", false);
         currencyMajor = new Currency("CHK", "Chako Coin", true);
@@ -90,7 +89,7 @@ public class CurrencyDatabaseTests {
     public void testGetExchangeRateSourceNull() throws Exception{
         //Verify
         thrown.expect(Exception.class);
-        thrown.expectMessage("Unkown currency: null");
+        thrown.expectMessage("Unknown currency: null");
         cd.getExchangeRate(null, "GBP");
     }
 
@@ -98,7 +97,7 @@ public class CurrencyDatabaseTests {
     public void testGetExchangeRateDestinationNull() throws Exception{
         //Verify
         thrown.expect(Exception.class);
-        thrown.expectMessage("Unkown currency: null");
+        thrown.expectMessage("Unknown currency: null");
         cd.getExchangeRate("GBP", null);
     }
 
@@ -106,7 +105,7 @@ public class CurrencyDatabaseTests {
     public void testGetExchangeRateSourceNonexistent() throws Exception{
         //Verify
         thrown.expect(Exception.class);
-        thrown.expectMessage("Unkown currency: ASDF");
+        thrown.expectMessage("Unknown currency: ASDF");
         cd.getExchangeRate("ASDF", "GBP");
     }
 
@@ -114,7 +113,7 @@ public class CurrencyDatabaseTests {
     public void testGetExchangeRateDestinationNonexistent() throws Exception{
         //Verify
         thrown.expect(Exception.class);
-        thrown.expectMessage("Unkown currency: ASDF");
+        thrown.expectMessage("Unknown currency: ASDF");
         cd.getExchangeRate("GBP", "ASDF");
     }
 

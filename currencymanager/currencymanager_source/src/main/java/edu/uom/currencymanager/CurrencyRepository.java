@@ -5,56 +5,61 @@ import edu.uom.currencymanager.currencies.ExchangeRate;
 import edu.uom.currencymanager.currencyserver.CurrencyServer;
 import edu.uom.currencymanager.currencyserver.DefaultCurrencyServer;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
 public class CurrencyRepository implements ICurrencyRepository {
     private CurrencyServer currencyServer;
     private List<Currency> currencies = new ArrayList<Currency>();
     private HashMap<String, ExchangeRate> exchangeRates = new HashMap<String, ExchangeRate>();
-    private String currenciesFile;
+    String currenciesFile = "target" + File.separator + "classes" + File.separator + "currencies.txt";
 
     public CurrencyRepository() throws Exception {
-        currencyServer = new DefaultCurrencyServer();
-        Thread.sleep(1000);
-        currenciesFile = setFilePath();
+        init();
     }
 
-    public String setFilePath() throws Exception {
-        File f;
-        String fileName;
-        System.out.println("in setFilePath() method");
-        boolean exists = false;
-        Scanner sc = new Scanner(System.in);
+    public void init() throws Exception {
+        //Initialise currency server
+        currencyServer = new DefaultCurrencyServer();
 
-        while (!exists) {
-            System.out.println("Enter the name of the currencies text file (type c to cancel):"); //executing only because it's a printline!!!
-            fileName = sc.next();
-            sc.close();
-            System.out.println(fileName);
-            if (fileName.equals("c") || fileName.equals("C")) {
-                throw new Exception("Cancelled setting up currencies file. Stopped program");
-            } else {
-                currenciesFile = "target" + File.separator + "classes" + File.separator + fileName;
-                f = new File(currenciesFile);
-                if (!(f.exists() && f.isDirectory())) {
-                    System.out.println("File not found. Try again");
-                    currenciesFile = "";
-                    exists = false;
-                } else {
-                    exists = true;
+        //Read in supported currencies from text file
+        BufferedReader reader = new BufferedReader(new FileReader(currenciesFile));
+
+        //skip the first line to avoid header
+        String firstLine = reader.readLine();
+        if (!firstLine.equals("code,name,major")) {
+            throw new Exception("Parsing error when reading currencies file.");
+        }
+
+        while (reader.ready()) {
+            String  nextLine = reader.readLine();
+
+            //Check if line has 2 commas
+            int numCommas = 0;
+            char[] chars = nextLine.toCharArray();
+            for (char c : chars) {
+                if (c == ',') numCommas++;
+            }
+
+            if (numCommas != 2) {
+                throw new Exception("Parsing error: expected two commas in line " + nextLine);
+            }
+
+            Currency currency = Currency.fromString(nextLine);
+
+            if (currency.code.length() == 3) {
+                if (!currencyExists(currency.code)) {
+                    currencies.add(currency);
                 }
+            } else {
+                System.err.println("Invalid currency code detected: " + currency.code);
             }
         }
-        return currenciesFile;
     }
 
-    public String getCurrenciesFile() {
+    public String getCurrenciesFile(){
         return currenciesFile;
     }
 
