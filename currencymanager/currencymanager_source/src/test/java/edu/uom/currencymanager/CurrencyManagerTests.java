@@ -66,7 +66,7 @@ public class CurrencyManagerTests {
     @Test
     public void testGetExchangeRateWithNonExistentCurrency()  throws Exception{ //OK
         thrown.expect(Exception.class);
-        thrown.expectMessage("Unkown currency: ASDF");
+        thrown.expectMessage("Unknown currency: ASDF");
         cm.getExchangeRate("ASDF", "USD");
     }//Testing for exception for getting an exchange rate for an unknown currency
 

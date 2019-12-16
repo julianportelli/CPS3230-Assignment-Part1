@@ -34,7 +34,7 @@ public class CurrencyRepository implements ICurrencyRepository {
         }
 
         while (reader.ready()) {
-            String  nextLine = reader.readLine();
+            String nextLine = reader.readLine();
 
             //Check if line has 2 commas
             int numCommas = 0;

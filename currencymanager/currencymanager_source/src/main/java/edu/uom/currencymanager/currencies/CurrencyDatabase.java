@@ -13,12 +13,6 @@ import java.util.Scanner;
 public class CurrencyDatabase {
 
     private ICurrencyRepository repository;
-    private String currenciesFile;
-//    private String currenciesFile = "target" + File.separator + "classes" + File.separator + "currencies.txt";
-
-//    public CurrencyDatabase() throws Exception {
-//        init();
-//    }
 
     public CurrencyDatabase(ICurrencyRepository repository) throws Exception {
         this.repository = repository;
@@ -72,7 +66,7 @@ public class CurrencyDatabase {
         }
 
         while (reader.ready()) {
-            String  nextLine = reader.readLine();
+            String nextLine = reader.readLine();
 
             //Check if line has 2 commas
             int numCommas = 0;

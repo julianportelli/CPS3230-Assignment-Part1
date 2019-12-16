@@ -20,7 +20,6 @@ public class CurrencyDatabaseTests {
     private Currency currencyMinor;
     private Currency currencyMajor;
 
-
     @Before
     public void setup() throws Exception{
         cd = new CurrencyDatabase(CurrencyFactory.getCurrencyRepository());
