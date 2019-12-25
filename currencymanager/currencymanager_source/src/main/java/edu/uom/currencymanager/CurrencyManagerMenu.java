@@ -106,18 +106,23 @@ public class CurrencyManagerMenu {
         String codeLine = "\nEnter the currency code: ";
         System.out.println(codeLine);
         code = sc.next().toUpperCase();
-        String currencyLine =  "Enter currency name: ";
+        System.out.println(code);
+        String currencyLine =  "\nEnter currency name: ";
         System.out.println(currencyLine);
         String name = sc.next();
         name += sc.nextLine();
+        System.out.println(name);
 
         String major = "\n";
+        String isMajor = "\nIs this a major currency? [y/n] ";
         while (!(major.equalsIgnoreCase("y") || major.equalsIgnoreCase("n"))) {
-            System.out.println("Is this a major currency? [y/n]");
+            System.out.println(isMajor);
             major = sc.next();
         }
-
+        System.out.println(major);
+        result = codeLine + code + currencyLine + name + isMajor + major;
         try {
+
             currencyManager.addCurrency(code, name, major.equalsIgnoreCase("y"));
         } catch (Exception e) {
             System.err.println(e.getMessage());

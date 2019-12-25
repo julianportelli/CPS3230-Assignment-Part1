@@ -23,7 +23,7 @@ public class CurrencyManagerMenuTests {
     private final String BAD_SOURCE = "ASD";
     private final String BAD_DESTINATION = "JKL";
     private final String NEW_CURRENCY_CODE = "TES";
-    private final String NEW_CURRENCY_NAME = "Test dollar";
+    private final String NEW_CURRENCY_NAME = "Test_dollar";
     private final String NEW_CURRENCY_MAJOR = "y";
 
     @Before
@@ -72,6 +72,78 @@ public class CurrencyManagerMenuTests {
         String result = currencyManagerMenu.case2(switchManager);
         //Verify
         assertEquals(currencyManager.getMajorCurrencyRates().toString(), result);
+    }
+
+    @Test
+    public void testCase3() {
+        //Testing for checking exchange rate
+
+        //Setup
+        Mockito.when(switchManager.getCase3Source()).thenReturn(DEFAULT_SOURCE);
+        Mockito.when(switchManager.getCase3Destination()).thenReturn(DEFAULT_DESTINATION);
+        InputStream originalSystem = System.in; // backup System.in to restore it later
+        ByteArrayInputStream inputToRead = new ByteArrayInputStream((DEFAULT_SOURCE + " " + DEFAULT_DESTINATION).getBytes());
+        System.setIn(inputToRead);
+        Scanner sc = new Scanner(inputToRead);
+
+        //Exercise
+        String result = currencyManagerMenu.case3(switchManager, sc);
+
+        //Verify
+        assertEquals("\nEnter source currency code (e.g. EUR): " +
+                DEFAULT_SOURCE + "\nEnter destination currency code (e.g. GBP): " + DEFAULT_DESTINATION, result);
+
+        //Reset System.in to original
+        System.setIn(originalSystem);
+    }
+
+    @Test
+    public void testCase3Exception(){
+        //Testing for checking exchange rate exception
+
+        //Setup
+        Mockito.when(switchManager.getCase3Source()).thenReturn(BAD_SOURCE);
+        Mockito.when(switchManager.getCase3Destination()).thenReturn(BAD_DESTINATION);
+        InputStream sysInBackup = System.in; // backup System.in to restore it later
+        ByteArrayInputStream in = new ByteArrayInputStream((BAD_SOURCE + " " + BAD_DESTINATION).getBytes());
+        System.setIn(in);
+        Scanner sc = new Scanner(in);
+
+        //Exercise
+        String result = currencyManagerMenu.case3(switchManager, sc);
+
+        //Verify
+        assertEquals("\nEnter source currency code (e.g. EUR): " +
+                BAD_SOURCE + "\nEnter destination currency code (e.g. GBP): " + BAD_DESTINATION, result);
+
+        //Reset System.in to original
+        System.setIn(sysInBackup);
+    }
+
+    @Test
+    public void testCase4() {
+        //Testing adding a currency
+
+        //setup
+        Mockito.when(switchManager.getCase4Code()).thenReturn(NEW_CURRENCY_CODE);
+        Mockito.when(switchManager.getCase4Name()).thenReturn(NEW_CURRENCY_NAME);
+        Mockito.when(switchManager.getCase4IsMajor()).thenReturn(NEW_CURRENCY_MAJOR);
+        InputStream sysInBackup = System.in; // backup System.in to restore it later
+        ByteArrayInputStream in = new ByteArrayInputStream((NEW_CURRENCY_CODE + " " + NEW_CURRENCY_NAME +
+                "\n" + NEW_CURRENCY_MAJOR).getBytes());
+        System.setIn(in);
+        Scanner sc = new Scanner(in);
+
+        //Exercise
+        String result = currencyManagerMenu.case4(switchManager, sc);
+
+        //Verify
+        assertEquals("\nEnter the currency code: " +
+                NEW_CURRENCY_CODE + "\nEnter currency name: " + NEW_CURRENCY_NAME +
+                "\nIs this a major currency? [y/n] " +  NEW_CURRENCY_MAJOR, result);
+
+        //Reset System.in to  original
+        System.setIn(sysInBackup);
     }
 
 }
