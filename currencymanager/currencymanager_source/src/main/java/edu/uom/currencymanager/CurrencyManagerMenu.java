@@ -119,10 +119,11 @@ public class CurrencyManagerMenu {
             System.out.println(isMajor);
             major = sc.next();
         }
+
         System.out.println(major);
+
         result = codeLine + code + currencyLine + name + isMajor + major;
         try {
-
             currencyManager.addCurrency(code, name, major.equalsIgnoreCase("y"));
         } catch (Exception e) {
             System.err.println(e.getMessage());
