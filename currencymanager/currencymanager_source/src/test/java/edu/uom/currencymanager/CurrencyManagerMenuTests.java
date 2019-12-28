@@ -25,6 +25,8 @@ public class CurrencyManagerMenuTests {
     private final String NEW_CURRENCY_CODE = "TES";
     private final String NEW_CURRENCY_NAME = "Test_dollar";
     private final String NEW_CURRENCY_MAJOR = "y";
+    private final String NONEXISTENT_CODE = "QWE";
+    private final String BAD_CURR_NAME = "ABC";
 
     @Before
     public void setup() throws Exception {
@@ -36,6 +38,7 @@ public class CurrencyManagerMenuTests {
 
     @After
     public void teardown() {
+        currencyManager = null;
         currencyManagerMenu = null;
         currencyDatabase = null;
     }
@@ -141,6 +144,76 @@ public class CurrencyManagerMenuTests {
         assertEquals("\nEnter the currency code: " +
                 NEW_CURRENCY_CODE + "\nEnter currency name: " + NEW_CURRENCY_NAME +
                 "\nIs this a major currency? [y/n] " +  NEW_CURRENCY_MAJOR, result);
+
+        //Reset System.in to  original
+        System.setIn(sysInBackup);
+    }
+
+    @Test
+    public void testCase4Exception() {
+        //Testing adding a currency
+
+        //setup
+        Mockito.when(switchManager.getCase4Code()).thenReturn(NEW_CURRENCY_CODE);
+        Mockito.when(switchManager.getCase4Name()).thenReturn(BAD_CURR_NAME);
+        Mockito.when(switchManager.getCase4IsMajor()).thenReturn(NEW_CURRENCY_MAJOR);
+        InputStream sysInBackup = System.in; // backup System.in to restore it later
+        ByteArrayInputStream in = new ByteArrayInputStream((NEW_CURRENCY_CODE + " " + BAD_CURR_NAME +
+                "\n" + NEW_CURRENCY_MAJOR).getBytes());
+        System.setIn(in);
+        Scanner sc = new Scanner(in);
+
+        //Exercise
+        String result = currencyManagerMenu.case4(switchManager, sc);
+
+        //Verify
+        assertEquals("\nEnter the currency code: " +
+                NEW_CURRENCY_CODE + "\nEnter currency name: " + BAD_CURR_NAME +
+                "\nIs this a major currency? [y/n] " +  NEW_CURRENCY_MAJOR + "\nA currency's name should be at least 4 characters long.", result);
+
+        //Reset System.in to  original
+        System.setIn(sysInBackup);
+    }
+
+    @Test
+    public void testCase5() {
+        //Testing adding a currency
+
+        //setup
+        Mockito.when(switchManager.getCase5Code()).thenReturn(NEW_CURRENCY_CODE);
+        InputStream sysInBackup = System.in; // backup System.in to restore it later
+        ByteArrayInputStream in = new ByteArrayInputStream((NEW_CURRENCY_CODE).getBytes());
+        System.setIn(in);
+        Scanner sc = new Scanner(in);
+
+        //Exercise
+        String result = currencyManagerMenu.case5(switchManager, sc);
+
+        //Verify
+        assertEquals("\nEnter your choice: " +
+                NEW_CURRENCY_CODE, result);
+
+        //Reset System.in to  original
+        System.setIn(sysInBackup);
+    }
+
+    @Test
+    public void testCase5Exception() {
+        //Testing adding a currency
+
+        //setup
+        Mockito.when(switchManager.getCase5Code()).thenReturn(NONEXISTENT_CODE);
+        InputStream sysInBackup = System.in; // backup System.in to restore it later
+        ByteArrayInputStream in = new ByteArrayInputStream((NONEXISTENT_CODE).getBytes());
+        System.setIn(in);
+        Scanner sc = new Scanner(in);
+
+        //Exercise
+        String result = currencyManagerMenu.case5(switchManager, sc);
+
+        //Verify
+        assertEquals("\nEnter your choice: " +
+                NONEXISTENT_CODE + "\nCurrency does not exist: " + NONEXISTENT_CODE, result);
 
         //Reset System.in to  original
         System.setIn(sysInBackup);

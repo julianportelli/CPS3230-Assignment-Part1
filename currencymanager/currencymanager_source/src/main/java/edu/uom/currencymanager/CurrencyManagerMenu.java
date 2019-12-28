@@ -49,7 +49,7 @@ public class CurrencyManagerMenu {
                     case4(switchManager, sc);
                     break;
                 case 5:
-                    case5();
+                    case5(switchManager, sc);
                     break;
             }
         }
@@ -127,18 +127,24 @@ public class CurrencyManagerMenu {
             currencyManager.addCurrency(code, name, major.equalsIgnoreCase("y"));
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            result = result + "\n" + e.getMessage();
         }
 
         return result;
     }
 
-    public void case5(){
-        System.out.print("\nEnter the currency code: ");
+    public String case5(ISwitchManager switchManager, Scanner sc){
+        String result = "";
+        String enterCode = "\nEnter your choice: ";
         code = sc.next().toUpperCase();
+        result = enterCode + code;
         try {
             currencyManager.deleteCurrencyWithCode(code);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            result = result + "\n" + e.getMessage();
         }
+
+        return result;
     }
 }

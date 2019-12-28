@@ -9,6 +9,6 @@ public interface ISwitchManager {
     String getCase4Code();
     String getCase4Name();
     String getCase4IsMajor();
-    String getCase5();
+    String getCase5Code();
     //int getSwitch();
 }
