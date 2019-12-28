@@ -95,8 +95,10 @@ public class CurrencyManagerMenu {
         try {
             ExchangeRate rate = currencyManager.getExchangeRate(src, dst);
             System.out.println(rate.toString());
+            result = result + "\n" + rate.toString();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            result = result + "\n" + e.getMessage();
         }
         return result;
     }

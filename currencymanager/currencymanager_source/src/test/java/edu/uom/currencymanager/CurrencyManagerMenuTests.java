@@ -106,9 +106,9 @@ public class CurrencyManagerMenuTests {
 
         //Setup
         Mockito.when(switchManager.getCase3Source()).thenReturn(BAD_SOURCE);
-        Mockito.when(switchManager.getCase3Destination()).thenReturn(BAD_DESTINATION);
+        Mockito.when(switchManager.getCase3Destination()).thenReturn(DEFAULT_DESTINATION);
         InputStream sysInBackup = System.in; // backup System.in to restore it later
-        ByteArrayInputStream in = new ByteArrayInputStream((BAD_SOURCE + " " + BAD_DESTINATION).getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream((BAD_SOURCE + " " + DEFAULT_DESTINATION).getBytes());
         System.setIn(in);
         Scanner sc = new Scanner(in);
 
@@ -117,7 +117,6 @@ public class CurrencyManagerMenuTests {
 
         //Verify
         assertEquals("\nEnter source currency code (e.g. EUR): " +
-                BAD_SOURCE + "\nEnter destination currency code (e.g. GBP): " + BAD_DESTINATION, result);
 
         //Reset System.in to original
         System.setIn(sysInBackup);
