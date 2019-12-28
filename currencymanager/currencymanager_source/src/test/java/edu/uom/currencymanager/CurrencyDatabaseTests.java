@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 public class CurrencyDatabaseTests {
 
-    //Can't test all lines of init()
+    //Can't test all lines of init() as we can't change which currencies file to choose
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
