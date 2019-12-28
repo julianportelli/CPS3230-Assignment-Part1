@@ -14,9 +14,8 @@ public class CurrencyDatabase {
 
     private ICurrencyRepository repository;
 
-    public CurrencyDatabase(ICurrencyRepository repository) throws Exception {
+    public CurrencyDatabase(ICurrencyRepository repository) {
         this.repository = repository;
-        init();
     }
 
     public List<Currency> getMajorCurrencies(){
@@ -46,46 +45,5 @@ public class CurrencyDatabase {
     public Currency getCurrencyByCode(String code){
         return repository.getCurrencyByCode(code);
     }
-
-    public void init() throws Exception {
-        //Initialise currency server
-        //currencyServer = new DefaultCurrencyServer();
-
-        //Read in supported currencies from text file
-
-        BufferedReader reader = new BufferedReader(new FileReader(repository.getCurrenciesFile()));
-
-        //skip the first line to avoid header
-        String firstLine = reader.readLine();
-        if (!firstLine.equals("code,name,major")) {
-            throw new Exception("Parsing error when reading currencies file.");
-        }
-
-        while (reader.ready()) {
-            String nextLine = reader.readLine();
-
-            //Check if line has 2 commas
-            int numCommas = 0;
-            char[] chars = nextLine.toCharArray();
-            for (char c : chars) {
-                if (c == ',') numCommas++;
-            }
-
-            if (numCommas != 2) {
-                throw new Exception("Parsing error: expected two commas in line " + nextLine);
-            }
-
-            Currency currency = Currency.fromString(nextLine);
-
-            if (currency.code.length() == 3) {
-                if (!repository.currencyExists(currency.code)) {
-                    repository.getCurrencies().add(currency);
-                }
-            } else {
-                System.err.println("Invalid currency code detected: " + currency.code);
-            }
-        }
-    } //No control
-
 
 }
