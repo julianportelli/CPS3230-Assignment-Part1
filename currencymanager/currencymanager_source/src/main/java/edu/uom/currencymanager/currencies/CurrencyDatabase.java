@@ -19,10 +19,6 @@ public class CurrencyDatabase {
         init();
     }
 
-    public ICurrencyRepository getRepository(){
-        return repository;
-    }
-
     public List<Currency> getMajorCurrencies(){
         return repository.getMajorCurrencies();
     }

@@ -46,8 +46,10 @@ public class CurrencyManagerMenuTests {
     @Test
     public void testCase0() {
         //Setup
-        Mockito.when(switchManager.getCase0()).thenReturn("true");
-
+        Mockito.when(switchManager.getCase0()).thenReturn(true);
+        currencyManagerMenu.case0();
+        Boolean exit = currencyManagerMenu.exit;
+        assertEquals((switchManager.getCase0()), exit);
     }
 
     @Test
@@ -78,7 +80,7 @@ public class CurrencyManagerMenuTests {
     }
 
     @Test
-    public void testCase3() {
+    public void testCase3() throws Exception {
         //Testing for checking exchange rate
 
         //Setup
@@ -94,7 +96,8 @@ public class CurrencyManagerMenuTests {
 
         //Verify
         assertEquals("\nEnter source currency code (e.g. EUR): " +
-                DEFAULT_SOURCE + "\nEnter destination currency code (e.g. GBP): " + DEFAULT_DESTINATION, result);
+                DEFAULT_SOURCE + "\nEnter destination currency code (e.g. GBP): " + DEFAULT_DESTINATION + "\n" +
+                currencyManager.getExchangeRate(DEFAULT_SOURCE, DEFAULT_DESTINATION), result);
 
         //Reset System.in to original
         System.setIn(originalSystem);
@@ -117,6 +120,7 @@ public class CurrencyManagerMenuTests {
 
         //Verify
         assertEquals("\nEnter source currency code (e.g. EUR): " +
+                BAD_SOURCE + "\nEnter destination currency code (e.g. GBP): " + DEFAULT_DESTINATION + "\nUnknown currency: " + BAD_SOURCE, result);
 
         //Reset System.in to original
         System.setIn(sysInBackup);

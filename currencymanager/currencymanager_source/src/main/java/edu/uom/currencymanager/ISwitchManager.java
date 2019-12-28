@@ -1,7 +1,7 @@
 package edu.uom.currencymanager;
 
 public interface ISwitchManager {
-    String getCase0();
+    Boolean getCase0();
     String getCase1();
     String getCase2();
     String getCase3Source();

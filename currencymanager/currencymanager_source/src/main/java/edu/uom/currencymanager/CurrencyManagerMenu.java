@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CurrencyManagerMenu {
-    private boolean exit;
+    public boolean exit;
     private CurrencyManager currencyManager;
     private String code;
     private Scanner sc = new Scanner(System.in);

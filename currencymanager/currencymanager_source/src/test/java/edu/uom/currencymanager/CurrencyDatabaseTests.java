@@ -13,6 +13,8 @@ import static org.junit.Assert.*;
 
 public class CurrencyDatabaseTests {
 
+    //Can't test all lines of init()
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
