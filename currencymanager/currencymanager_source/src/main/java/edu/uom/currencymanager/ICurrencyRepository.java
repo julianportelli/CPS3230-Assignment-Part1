@@ -13,5 +13,4 @@ public interface ICurrencyRepository {
     ExchangeRate getExchangeRate(String sourceCurrencyCode, String destinationCurrencyCode) throws  Exception;
     void addCurrency(Currency currency) throws Exception;
     void deleteCurrency(String code) throws Exception;
-    String getCurrenciesFile();
 }

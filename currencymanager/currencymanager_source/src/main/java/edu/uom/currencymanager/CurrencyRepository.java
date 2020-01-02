@@ -59,10 +59,6 @@ public class CurrencyRepository implements ICurrencyRepository {
         }
     }
 
-    public String getCurrenciesFile(){
-        return currenciesFile;
-    }
-
     public Currency getCurrencyByCode(String code) {
 
         for (Currency currency : currencies) {
