@@ -1,5 +1,3 @@
-//MAIN CLASS
-
 package edu.uom.currencymanager;
 
 import edu.uom.currencymanager.currencies.Currency;

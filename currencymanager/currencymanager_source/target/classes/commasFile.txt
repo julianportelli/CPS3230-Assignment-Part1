@@ -1,0 +1,2 @@
+code,name,major
+AUD,Australian Dollarno

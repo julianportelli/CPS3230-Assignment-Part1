@@ -1,18 +1,15 @@
 package edu.uom.currencymanager.currencies;
-
 import edu.uom.currencymanager.ICurrencyRepository;
-import edu.uom.currencymanager.currencyserver.CurrencyServer;
-import edu.uom.currencymanager.currencyserver.DefaultCurrencyServer;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
+
 
 public class CurrencyDatabase {
 
     private ICurrencyRepository repository;
+
+    public void init(String file) throws Exception{
+        repository.init(file);
+    }
 
     public CurrencyDatabase(ICurrencyRepository repository) {
         this.repository = repository;
@@ -45,5 +42,13 @@ public class CurrencyDatabase {
     public Currency getCurrencyByCode(String code){
         return repository.getCurrencyByCode(code);
     }
+
+    public String checkLineForTwoCommas(String nextLine, int numCommas) throws Exception{
+        return repository.checkLineForTwoCommas(nextLine, numCommas);
+    };
+
+    public int getCommasAmount(String nextLine){
+        return repository.getCommasAmount(nextLine);
+    };
 
 }

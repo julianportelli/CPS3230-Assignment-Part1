@@ -17,15 +17,15 @@ public class CurrencyRepository implements ICurrencyRepository {
     String currenciesFile = "target" + File.separator + "classes" + File.separator + "currencies.txt";
 
     public CurrencyRepository() throws Exception {
-        init();
+        init(currenciesFile);
     }
 
-    public void init() throws Exception {
+    public void init(String file) throws Exception {
         //Initialise currency server
         currencyServer = new DefaultCurrencyServer();
 
         //Read in supported currencies from text file
-        BufferedReader reader = new BufferedReader(new FileReader(currenciesFile));
+        BufferedReader reader = new BufferedReader(new FileReader(file));
 
         //skip the first line to avoid header
         String firstLine = reader.readLine();
@@ -160,6 +160,22 @@ public class CurrencyRepository implements ICurrencyRepository {
 
         writer.flush();
         writer.close();
+    }
+
+    public String checkLineForTwoCommas(String nextLine, int numCommas) throws Exception {
+        if (numCommas != 2) {
+            throw new Exception("Parsing error: expected two commas in line " + nextLine);
+        }
+        return nextLine;
+    }
+
+    public int getCommasAmount(String nextLine) {
+        int commas = 0;
+        char[] chars = nextLine.toCharArray();
+        for (char c : chars) {
+            if (c == ',') commas++;
+        }
+        return commas;
     }
 
 }
