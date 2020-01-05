@@ -94,32 +94,32 @@ public class CurrencyDatabaseTests {
     public void testGetExchangeRateSourceNull() throws Exception{
         //Verify
         thrown.expect(Exception.class);
-        thrown.expectMessage("Unknown currency: null");
         cd.getExchangeRate(null, "GBP");
+        thrown.expectMessage("Unknown currency: null");
     }
 
     @Test
     public void testGetExchangeRateDestinationNull() throws Exception{
         //Verify
         thrown.expect(Exception.class);
-        thrown.expectMessage("Unknown currency: null");
         cd.getExchangeRate("GBP", null);
+        thrown.expectMessage("Unknown currency: null");
     }
 
     @Test
     public void testGetExchangeRateSourceNonexistent() throws Exception{
         //Verify
         thrown.expect(Exception.class);
-        thrown.expectMessage("Unknown currency: ASDF");
         cd.getExchangeRate("ASDF", "GBP");
+        thrown.expectMessage("Unknown currency: ASDF");
     }
 
     @Test
     public void testGetExchangeRateDestinationNonexistent() throws Exception{
         //Verify
         thrown.expect(Exception.class);
-        thrown.expectMessage("Unknown currency: ASDF");
         cd.getExchangeRate("GBP", "ASDF");
+        thrown.expectMessage("Unknown currency: ASDF");
     }
 
     @Test
@@ -178,6 +178,20 @@ public class CurrencyDatabaseTests {
     }
 
     @Test
+    public void Test2CommasException() throws Exception{
+        //Setup
+        exception.expect(Exception.class);
+        String res = "mlt, mt yes";
+
+        //Exercise
+        int commas = cd.getCommasAmount(res);
+        cd.checkLineForTwoCommas(res, commas);
+
+        //Verify
+        exception.expectMessage("Parsing error: expected two commas in line " + res);
+    }
+
+    @Test
     public void TestFirstLineParsingError() throws Exception {
         //Setup
         exception.expect(Exception.class);
@@ -210,34 +224,5 @@ public class CurrencyDatabaseTests {
         exception.expectMessage("Parsing error: expected two commas in line " + cd.checkLineForTwoCommas(nextLine,commas));
 
     }
-
-    @Test
-    public void TestReadInvalidCurrencyCode() throws Exception {
-        //Setup
-        exception.expect(Exception.class);
-        Currency badCurrency = null;
-        String file = "target" + File.separator + "classes" + File.separator + ".txt";
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        String nextLine = "";
-
-        //Exercise
-        while (reader.ready() && badCurrency == null) {
-            nextLine = reader.readLine();
-            Currency currency = Currency.fromString(nextLine);
-
-            if (currency.code.length() == 3) {
-                if (cd.currencyExists(currency.code)) {
-                    badCurrency = currency;
-                    System.out.println(badCurrency.code);
-                }
-            }
-        }
-
-        //Verify
-        cd.init(file);
-        exception.expectMessage("Invalid currency code detected: " + badCurrency.code);
-
-    }
-
 
 }
